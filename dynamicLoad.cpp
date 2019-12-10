@@ -1,32 +1,13 @@
 #include <iostream>
 #include <dlfcn.h>     //动态加载so所需的头文件
-#include "dLoad.h" //获取so所继承的基类
+#include "dLoad.hpp" //获取so所继承的基类
 using namespace std;
 int main()
 {
-    /*interface *ptr;
-    interface *(*func)(void);
-    void *so1 = dlopen("./so1.so", RTLD_LAZY);
-    if (!so1)
-    {
-        cout << "open so1 err.";
-        return 0;
-    }
-    func = (interface * (*)(void)) dlsym(so1, "getInstance");
-    ptr = (interface *)func();
-    ptr->show();
-    dlclose(so1);
-
-    void *so2 = dlopen("./so2.so", RTLD_LAZY);
-    if (!so2)
-    {
-        cout << "open so2 err.";
-        return 0;
-    }
-    func = (interface * (*)(void)) dlsym(so2, "getInstance");
-    ptr = (interface *)func();
-    ptr->show();
-    dlclose(so2);
-    return 0;*/
-
+    dynamicLoader loader("./"); //so文件在根目录下
+    loader.load("so1.so");      //加载so1.so
+    interface *p=loader.getInstance("so1.so");  //获取so1.so中的实例，获得对象
+    p->show();  //调用函数
+    delete p;   //删除对象
+    loader.unload("so1.so");    //卸载动态库
 }
