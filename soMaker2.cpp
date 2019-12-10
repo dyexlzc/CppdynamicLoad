@@ -2,7 +2,7 @@
 #include"interface.h"
 class job2:public interface{
 public:
-    virtual void show(){
+    virtual void run(){
         std::cout<<"this is job2"<<std::endl;
     }
 };
