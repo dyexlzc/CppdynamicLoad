@@ -10,7 +10,7 @@ public:
     }
 };
 extern "C"{
-    job1* getInstance(){    //导出符号
+    interface* getInstance(){    //导出符号
         return new job1;
     }    
 }

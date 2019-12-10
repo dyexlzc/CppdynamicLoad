@@ -4,7 +4,6 @@
 #include <unordered_map>
 #include <string>
 #include <dlfcn.h> //加载动态库所需要的头文件
-#include <iostream>
 #include "interface.h"
 class dynamicLoader
 {
