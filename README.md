@@ -1,13 +1,13 @@
 # CppDynamicLoad —— Linux下cpp动态加载so库
 
 **主要文件**
-dload.hpp			主要的实现文件
-interface.h			定义统一的接口
+dload.hpp			主要的实现文件  
+interface.h			定义统一的接口  
 
-example:
-文件1:main.cpp
-编译指令:    g++ main.cpp -std=c++11 -ldl -o dl 
-其中只加了-ldl，表明使用了系统dlfcn.h相关的库
+example:  
+文件1:main.cpp  
+编译指令:    g++ main.cpp -std=c++11 -ldl -o dl  
+其中只加了-ldl，表明使用了系统dlfcn.h相关的库  
 ```C++
 #include <iostream>
 #include <dlfcn.h>     //动态加载so所需的头文件
@@ -24,11 +24,11 @@ int main()
 }
 ```
 
-文件2-n...:soMaker[n].cpp
-编译指令: g++ -fPIC -shared soMaker[n].cpp -o so1.so
-期中-fPIC：使得编译器产生位置无关的代码,PIC就是position independent code
-PIC使.so文件的代码段变为真正意义上的共享
--shared 表示告诉编译器生成so文件
+文件2-n...:soMaker[n].cpp  
+编译指令: g++ -fPIC -shared soMaker[n].cpp -o so1.so  
+期中-fPIC：使得编译器产生位置无关的代码,PIC就是position independent code  
+PIC使.so文件的代码段变为真正意义上的共享  
+-shared 表示告诉编译器生成so文件  
 
 ```C++
 #include<iostream>
