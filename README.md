@@ -1,10 +1,12 @@
 # CppDynamicLoad —— Linux下cpp动态加载so库
 
+
 **主要文件**
 dload.hpp			主要的实现文件  
 interface.h			定义统一的接口  
 
 example:  
+>可以clone下来后使用make so,make两条指令分别生成so和可执行文件./dl，执行./dl即可
 文件1:main.cpp  
 编译指令:    g++ main.cpp -std=c++11 -ldl -o dl  
 其中只加了-ldl，表明使用了系统dlfcn.h相关的库  
