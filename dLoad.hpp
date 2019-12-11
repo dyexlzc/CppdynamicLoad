@@ -1,13 +1,13 @@
 #ifndef _DLOAD_HPP
 #define _DLOAD_HPP
-#include <list>
+
 #include <unordered_map>
 #include <string>
 #include <dlfcn.h> //加载动态库所需要的头文件
 #include "interface.h"
-class dload
+class dynamicLoader
 {
-    class SoWrapper
+    class SoWrapper//用来包装指针
     {
     public:
         interface *(*getInstanceFunc)(void);
@@ -17,16 +17,22 @@ class dload
             getInstanceFunc = fptr;
             soPtr = soptr;
         }
+        SoWrapper(){}
+        SoWrapper(const SoWrapper& sw){
+            //自己写一个拷贝构造，否则map不认
+            this->soPtr=sw.soPtr;
+            this->getInstanceFunc=sw.getInstanceFunc;
+        }
     };
     std::string mSoPath;                                       //so库的根目录
     std::unordered_map<std::string, SoWrapper> libInstanceMap; //map储存so指针实现 o(n)的效率
 
 public:
-    dload(const std::string &soPath) : mSoPath(soPath) {}
-    ~dload() {}
+    dynamicLoader(const std::string &soPath) : mSoPath(soPath) {}
+    ~dynamicLoader() {}
 
     bool load(const std::string &libName)
-    { //加载库名，即so的全名，【libxxx】.so，成功或者已经加载，则返回true，失败返回false
+    { //加载so库名，即so的全名，【libxxx】.so，成功或者已经加载，则返回true，失败返回false
         void *soPtr = dlopen((mSoPath + libName).c_str(), RTLD_LAZY);
         if (!soPtr)
             return false;
@@ -34,7 +40,7 @@ public:
             return true;                                                       //如果已经加载过
         interface *(*getInstanceFunc)(void);                                   //getInstance的函数指针
         getInstanceFunc = (interface * (*)(void)) dlsym(soPtr, "getInstance"); //从so中获取符号,因此必须导出getInstance函数
-        SoWrapper sw(getInstanceFunc, soPtr);
+        SoWrapper sw(getInstanceFunc, soPtr);//构建warpper对象
         libInstanceMap[libName] = sw;
         return true; //存入instanceMap中，下次要再次使用时直接获取即可
     }
@@ -42,7 +48,9 @@ public:
     { //卸载类库
         if (isExists(libName))
         {
-            dlclose(libInstanceMap[libName].soPtr);
+            dlclose(libInstanceMap[libName].soPtr);     //关闭so文件的调用
+            libInstanceMap[libName].soPtr=nullptr;
+            libInstanceMap[libName].getInstanceFunc=nullptr;
             libInstanceMap.erase(libName);
         }
         return true;
@@ -63,5 +71,6 @@ public:
         }
         return true;
     }
+
 };
 #endif
