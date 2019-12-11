@@ -7,7 +7,7 @@
 #include "interface.h"
 class dynamicLoader
 {
-    class SoWrapper//用来包装指针
+    class SoWrapper //用来包装指针
     {
     public:
         interface *(*getInstanceFunc)(void);
@@ -17,11 +17,12 @@ class dynamicLoader
             getInstanceFunc = fptr;
             soPtr = soptr;
         }
-        SoWrapper(){}
-        SoWrapper(const SoWrapper& sw){
+        SoWrapper() {}
+        SoWrapper(const SoWrapper &sw)
+        {
             //自己写一个拷贝构造，否则map不认
-            this->soPtr=sw.soPtr;
-            this->getInstanceFunc=sw.getInstanceFunc;
+            this->soPtr = sw.soPtr;
+            this->getInstanceFunc = sw.getInstanceFunc;
         }
     };
     std::string mSoPath;                                       //so库的根目录
@@ -40,7 +41,7 @@ public:
             return true;                                                       //如果已经加载过
         interface *(*getInstanceFunc)(void);                                   //getInstance的函数指针
         getInstanceFunc = (interface * (*)(void)) dlsym(soPtr, "getInstance"); //从so中获取符号,因此必须导出getInstance函数
-        SoWrapper sw(getInstanceFunc, soPtr);//构建warpper对象
+        SoWrapper sw(getInstanceFunc, soPtr);                                  //构建warpper对象
         libInstanceMap[libName] = sw;
         return true; //存入instanceMap中，下次要再次使用时直接获取即可
     }
@@ -48,9 +49,9 @@ public:
     { //卸载类库
         if (isExists(libName))
         {
-            dlclose(libInstanceMap[libName].soPtr);     //关闭so文件的调用
-            libInstanceMap[libName].soPtr=nullptr;
-            libInstanceMap[libName].getInstanceFunc=nullptr;
+            dlclose(libInstanceMap[libName].soPtr); //关闭so文件的调用
+            libInstanceMap[libName].soPtr = nullptr;
+            libInstanceMap[libName].getInstanceFunc = nullptr;
             libInstanceMap.erase(libName);
         }
         return true;
@@ -71,6 +72,5 @@ public:
         }
         return true;
     }
-
 };
 #endif
