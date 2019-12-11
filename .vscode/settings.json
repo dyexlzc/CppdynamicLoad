@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.db": "db",
         "cctype": "cpp",
         "clocale": "cpp",
         "cmath": "cpp",
@@ -55,6 +56,9 @@
         "cfenv": "cpp",
         "cinttypes": "cpp",
         "typeindex": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "bit": "cpp",
+        "optional": "cpp",
+        "string_view": "cpp"
     }
 }

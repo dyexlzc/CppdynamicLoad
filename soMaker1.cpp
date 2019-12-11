@@ -5,9 +5,12 @@ public:
     virtual void run(){
         std::cout<<"this is job131"<<std::endl;
     }
+    ~job1(){
+        std::cout<<"job1 descontruct"<<std::endl;
+    }
 };
 extern "C"{
-    job1* getInstance(){    //导出符号
+    interface* getInstance(){    //导出符号
         return new job1;
     }    
 }
