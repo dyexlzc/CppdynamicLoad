@@ -1,21 +1,27 @@
 #include <iostream>
 #include "interface.h"
-class job1 : public interface
+class Add : public interface
 {
+    struct param{           //参数和结果都要放在一个自定义的struct中
+        int numa,numb;
+    }t;
 public:
-    virtual void run()
+    virtual void run(char* buffer,char* returns)
     {
-        std::cout << "this is job131" << std::endl;
+        std::cout << "this is FuncAdd" << std::endl;
+        memcpy(&t,buffer,sizeof(t));//用buffer初始化结构体，从中解出
+        int result=t.numa+t.numb;     //计算结果
+        memcpy(returns,&result,sizeof(result));//把结果保存
     }
-    ~job1()
+    ~Add()
     {
-        std::cout << "job1 descontruct" << std::endl;
+        std::cout << "Add descontruct" << std::endl;
     }
 };
 extern "C"
 {
     interface *getInstance()
     { //导出符号
-        return new job1;
+        return new Add;
     }
 }

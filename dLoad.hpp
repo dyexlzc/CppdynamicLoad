@@ -34,6 +34,7 @@ public:
 
     bool load(const std::string &libName)
     { //加载so库名，即so的全名，【libxxx】.so，成功或者已经加载，则返回true，失败返回false
+        if(libInstanceMap.count(libName)!=0)return true;
         void *soPtr = dlopen((mSoPath + libName).c_str(), RTLD_LAZY);
         if (!soPtr)
             return false;
